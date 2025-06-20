@@ -74,6 +74,35 @@
             overflow-y: auto;
         }
     </style>
+    <!-- En tu archivo HTML -->
+<div id="logo-container">
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 300 150">
+  <defs>
+    <linearGradient id="gradient" x1="0%" y1="0%" x2="100%" y2="0%">
+      <stop offset="0%" stop-color="#2563eb" />
+      <stop offset="100%" stop-color="#7c3aed" />
+    </linearGradient>
+  </defs>
+  
+  <!-- Burbuja de diálogo estilizada -->
+  <path d="M30,50 Q50,20 80,30 Q110,10 140,30 Q170,5 200,35 Q230,15 260,40 L260,90 Q245,115 220,100 L190,110 Q175,120 160,105 L130,115 Q115,125 100,105 L70,115 Q50,125 40,100 Z" 
+        fill="url(#gradient)" opacity="0.9"/>
+  
+  <!-- Icono de comunicación abstracto -->
+  <g transform="translate(145 65) scale(0.8)">
+    <circle cx="0" cy="-10" r="8" fill="white"/>
+    <circle cx="-15" cy="5" r="8" fill="white"/>
+    <circle cx="15" cy="5" r="8" fill="white"/>
+    <path d="M-25,25 Q0,40 25,25" stroke="white" stroke-width="3" fill="none"/>
+  </g>
+  
+  <!-- Texto del título -->
+  <text x="150" y="130" font-family="Arial, sans-serif" font-weight="600" 
+        font-size="24" text-anchor="middle" fill="#1e293b">
+    El Arte de la Comunicación
+  </text>
+</svg>
+</div>
 </head>
 <body class="text-stone-800 antialiased">
 
