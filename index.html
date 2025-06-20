@@ -4,28 +4,42 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>El Arte de la Comunicación: Un Viaje Interactivo</title>
+    
+    <!-- Open Graph Meta Tags for WhatsApp Sharing -->
+    <meta property="og:title" content="El Arte de la Comunicación: Un Viaje Interactivo">
+    <meta property="og:description" content="Explora los principios de comunicación con herramientas interactivas y visualizaciones">
+    <meta property="og:image" content="https://n45h0.github.io/El-Arte-de-la-Comunicaci-n/icons/apple-touch-icon.png"> 
+    <meta property="og:url" content="https://n45h0.github.io/El-Arte-de-la-Comunicaci-n/"> 
+    <meta property="og:type" content="website">
+    <meta property="og:site_name" content="El Arte de la Comunicación">
+    
+    <!-- Favicon Configuration (ROOT PATH + ABSOLUTE URLs) -->
+    <link rel="shortcut icon" href="/favicon.ico" type="image/x-icon">
+    <link rel="icon" type="image/png" href="/icons/favicon-96x96.png" sizes="96x96">
+    <link rel="icon" type="image/svg+xml" href="/icons/favicon.svg">
+    <link rel="apple-touch-icon" sizes="180x180" href="/icons/apple-touch-icon.png">
+    
+    <!-- Web App Manifest -->
+    <link rel="manifest" href="/icons/site.webmanifest">
+    <meta name="apple-mobile-web-app-title" content="El Arte de la Comunicación">
+    
+    <!-- External Resources -->
     <script src="https://cdn.tailwindcss.com"></script>
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Merriweather:ital,wght@0,300;0,400;0,700;1,400&family=Lato:wght@300;400;700&display=swap" rel="stylesheet">
-    <link rel="icon" type="image/png" href="icons/favicon-96x96.png" sizes="96x96" />
-    <link rel="icon" type="image/svg+xml" href="icons/favicon.svg" />
-    <link rel="shortcut icon" href="icons/favicon.ico" />
-    <link rel="apple-touch-icon" sizes="180x180" href="icons/apple-touch-icon.png" />
-    <meta name="apple-mobile-web-app-title" content="El Arte de la Comunicación" />
-    <link rel="manifest" href="icons/site.webmanifest" />
-    <!-- Chosen Palette: Papiro y Tinta (Warm neutrals: stone/amber, with dark text) -->
-    <!-- Application Structure Plan: Hub-and-spoke model. Central interactive radar chart for navigation to thematic sections: Thinker Profiles, Timeline, and Practical Principles. New section "Asesor de Comunicación" added for LLM interaction. This non-linear structure encourages exploration and comparison over passive reading, making the dense philosophical content more accessible and directly applicable. -->
-    <!-- Visualization & Content Choices: Central Radar Chart (Chart.js) to compare thinkers' focus (Truth, Influence, etc.) for intuitive navigation. Interactive Cards (HTML/CSS/JS) for thinker profiles to chunk information. Vertical Timeline (HTML/CSS) to show historical progression. Filterable Card Grid (HTML/JS) for Carnegie's principles for practical application. New LLM-powered section with dropdown, textarea, and dynamic text output to provide philosophical communication advice. No SVG/Mermaid used. -->
-    <!-- CONFIRMATION: NO SVG graphics used. NO Mermaid JS used. -->
+    
     <style>
         body {
             font-family: 'Lato', sans-serif;
             background-color: #FFFAF0; /* FloralWhite, a warm off-white */
+            color: #333;
+            line-height: 1.6;
         }
         h1, h2, h3, h4, h5, h6, .font-serif {
             font-family: 'Merriweather', serif;
+            color: #1E293B;
         }
         .active-nav {
             color: #D97706; /* amber-600 */
@@ -43,10 +57,12 @@
             background-color: #FFFFFF;
             border: 1px solid #F5EADD; /* A light tan border */
             transition: transform 0.3s ease, box-shadow 0.3s ease;
+            border-radius: 8px;
+            overflow: hidden;
         }
         .card:hover {
             transform: translateY(-5px);
-            box-shadow: 0 10px 15px -3px rgb(0 0 0 / 0.1), 0 4px 6px -4px rgb(0 0 0 / 0.1);
+            box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -4px rgba(0, 0, 0, 0.1);
         }
         .timeline-item::before {
             content: '';
@@ -78,6 +94,38 @@
             min-height: 150px; /* Ensure space for content */
             max-height: 400px;
             overflow-y: auto;
+        }
+        .favicon-preview {
+            background-color: #f0f9ff;
+            border: 1px solid #cbd5e1;
+            border-radius: 12px;
+            padding: 20px;
+            box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
+        }
+        .whatsapp-preview {
+            background-color: #dcf8c6;
+            border-radius: 7.5px;
+            max-width: 300px;
+            margin: 0 auto;
+            padding: 12px;
+            position: relative;
+        }
+        .whatsapp-preview::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            right: -8px;
+            width: 0;
+            height: 0;
+            border-style: solid;
+            border-width: 0 16px 16px 0;
+            border-color: transparent #dcf8c6 transparent transparent;
+        }
+        .instruction-box {
+            background-color: #fffbeb;
+            border-left: 4px solid #f59e0b;
+            padding: 16px;
+            margin: 20px 0;
         }
     </style>
 </head>
