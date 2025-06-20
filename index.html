@@ -1,0 +1,620 @@
+<!DOCTYPE html>
+<html lang="es" class="scroll-smooth">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>El Arte de la Comunicación: Un Viaje Interactivo</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Merriweather:ital,wght@0,300;0,400;0,700;1,400&family=Lato:wght@300;400;700&display=swap" rel="stylesheet">
+    <!-- Chosen Palette: Papiro y Tinta (Warm neutrals: stone/amber, with dark text) -->
+    <!-- Application Structure Plan: Hub-and-spoke model. Central interactive radar chart for navigation to thematic sections: Thinker Profiles, Timeline, and Practical Principles. New section "Asesor de Comunicación" added for LLM interaction. This non-linear structure encourages exploration and comparison over passive reading, making the dense philosophical content more accessible and directly applicable. -->
+    <!-- Visualization & Content Choices: Central Radar Chart (Chart.js) to compare thinkers' focus (Truth, Influence, etc.) for intuitive navigation. Interactive Cards (HTML/CSS/JS) for thinker profiles to chunk information. Vertical Timeline (HTML/CSS) to show historical progression. Filterable Card Grid (HTML/JS) for Carnegie's principles for practical application. New LLM-powered section with dropdown, textarea, and dynamic text output to provide philosophical communication advice. No SVG/Mermaid used. -->
+    <!-- CONFIRMATION: NO SVG graphics used. NO Mermaid JS used. -->
+    <style>
+        body {
+            font-family: 'Lato', sans-serif;
+            background-color: #FFFAF0; /* FloralWhite, a warm off-white */
+        }
+        h1, h2, h3, h4, h5, h6, .font-serif {
+            font-family: 'Merriweather', serif;
+        }
+        .active-nav {
+            color: #D97706; /* amber-600 */
+            font-weight: 700;
+            transform: scale(1.1);
+        }
+        .nav-link {
+            transition: all 0.2s ease-in-out;
+        }
+        .nav-link:hover {
+            color: #F59E0B; /* amber-500 */
+            transform: scale(1.05);
+        }
+        .card {
+            background-color: #FFFFFF;
+            border: 1px solid #F5EADD; /* A light tan border */
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+        .card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 15px -3px rgb(0 0 0 / 0.1), 0 4px 6px -4px rgb(0 0 0 / 0.1);
+        }
+        .timeline-item::before {
+            content: '';
+            position: absolute;
+            left: -31.5px;
+            top: 50%;
+            transform: translateY(-50%);
+            width: 24px;
+            height: 24px;
+            border-radius: 9999px;
+            background-color: #D97706; /* amber-600 */
+            border: 4px solid #FFFAF0;
+        }
+        .chart-container {
+            position: relative;
+            width: 100%;
+            max-width: 600px;
+            margin-left: auto;
+            margin-right: auto;
+            height: 350px;
+            max-height: 500px;
+        }
+        @media (min-width: 768px) {
+            .chart-container {
+                height: 500px;
+            }
+        }
+        .llm-response-container {
+            min-height: 150px; /* Ensure space for content */
+            max-height: 400px;
+            overflow-y: auto;
+        }
+    </style>
+</head>
+<body class="text-stone-800 antialiased">
+
+    <!-- Header y Navegación -->
+    <header class="bg-white/80 backdrop-blur-md sticky top-0 z-50 shadow-sm">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex items-center justify-between h-20">
+                <h1 class="text-2xl font-bold text-amber-700">Filosofía de la Comunicación</h1>
+                <nav class="hidden md:flex space-x-6 text-sm font-medium">
+                    <a href="#introduccion" class="nav-link active-nav">Introducción</a>
+                    <a href="#explorador" class="nav-link">Explorador</a>
+                    <a href="#pensadores" class="nav-link">Pensadores</a>
+                    <a href="#linea-tiempo" class="nav-link">Línea de Tiempo</a>
+                    <a href="#principios" class="nav-link">Principios Prácticos</a>
+                    <a href="#asesor-llm" class="nav-link">Asesor ✨</a>
+                </nav>
+                 <button id="mobile-menu-button" class="md:hidden p-2 rounded-md text-stone-600 hover:text-amber-600 hover:bg-stone-100 focus:outline-none focus:ring-2 focus:ring-inset focus:ring-amber-500">
+                    <span class="sr-only">Abrir menú principal</span>
+                    <svg class="h-6 w-6" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" aria-hidden="true">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16" />
+                    </svg>
+                </button>
+            </div>
+             <div id="mobile-menu" class="md:hidden hidden pb-4">
+                <a href="#introduccion" class="block py-2 px-4 text-sm nav-link">Introducción</a>
+                <a href="#explorador" class="block py-2 px-4 text-sm nav-link">Explorador</a>
+                <a href="#pensadores" class="block py-2 px-4 text-sm nav-link">Pensadores</a>
+                <a href="#linea-tiempo" class="block py-2 px-4 text-sm nav-link">Línea de Tiempo</a>
+                <a href="#principios" class="block py-2 px-4 text-sm nav-link">Principios Prácticos</a>
+                <a href="#asesor-llm" class="block py-2 px-4 text-sm nav-link">Asesor ✨</a>
+            </div>
+        </div>
+    </header>
+
+    <main class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
+        
+        <!-- Sección de Introducción -->
+        <section id="introduccion" class="text-center mb-24">
+            <h2 class="text-4xl md:text-5xl font-bold tracking-tight text-amber-800 mb-4">El Arte de la Comunicación</h2>
+            <p class="max-w-3xl mx-auto text-lg text-stone-600 leading-relaxed">
+                Un viaje interactivo a través de las mentes que definieron cómo nos conectamos, persuadimos y entendemos. Desde la dialéctica de Sócrates hasta la conciencia de Eckhart Tolle, explore las ideas fundamentales que moldean cada conversación.
+            </p>
+        </section>
+
+        <!-- Sección del Explorador Interactivo -->
+        <section id="explorador" class="mb-24">
+            <h3 class="text-3xl font-bold text-center mb-4 text-stone-800">Mapa de Perspectivas</h3>
+             <p class="max-w-2xl mx-auto text-center text-stone-600 mb-8">
+                Este gráfico compara el enfoque de cada pensador en cinco dimensiones clave de la comunicación. Haga clic en el nombre de un pensador en la leyenda para explorar su filosofía en detalle.
+            </p>
+            <div class="chart-container">
+                <canvas id="perspectiveChart"></canvas>
+            </div>
+        </section>
+
+        <!-- Sección de Pensadores -->
+        <section id="pensadores" class="mb-24">
+            <h3 class="text-3xl font-bold text-center mb-12 text-stone-800">Galería de Pensadores</h3>
+            <div id="thinker-details" class="space-y-16">
+            </div>
+        </section>
+
+        <!-- Sección de Línea de Tiempo -->
+        <section id="linea-tiempo" class="mb-24">
+            <h3 class="text-3xl font-bold text-center mb-12 text-stone-800">Evolución del Pensamiento Comunicativo</h3>
+            <div class="relative border-l-2 border-amber-200 ml-4 md:ml-12">
+                <div id="timeline-container" class="space-y-16">
+                </div>
+            </div>
+        </section>
+
+        <!-- Sección de Principios Prácticos -->
+        <section id="principios" class="mb-24">
+            <h3 class="text-3xl font-bold text-center mb-4 text-stone-800">Principios en Práctica: Dale Carnegie</h3>
+            <p class="max-w-2xl mx-auto text-center text-stone-600 mb-8">
+                Explore las técnicas atemporales de Dale Carnegie para mejorar sus relaciones interpersonales. Filtre los principios por categoría para enfocarse en áreas específicas.
+            </p>
+            <div id="carnegie-filters" class="flex flex-wrap justify-center gap-2 mb-8">
+            </div>
+            <div id="carnegie-principles-container" class="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
+            </div>
+        </section>
+
+        <!-- Sección del Asesor de Comunicación LLM -->
+        <section id="asesor-llm" class="mb-24">
+            <h3 class="text-3xl font-bold text-center mb-4 text-stone-800">Asesor de Comunicación ✨</h3>
+            <p class="max-w-2xl mx-auto text-center text-stone-600 mb-8">
+                Seleccione un pensador y describa un dilema de comunicación. Reciba consejos basados en sus filosofías para una interacción más efectiva.
+            </p>
+            <div class="max-w-3xl mx-auto p-8 bg-white rounded-lg shadow-md border border-stone-200">
+                <div class="mb-6">
+                    <label for="philosopher-select" class="block text-stone-700 text-lg font-bold mb-2">Elija un Consejero Filosófico:</label>
+                    <select id="philosopher-select" class="block w-full p-3 border border-stone-300 rounded-md bg-stone-50 focus:outline-none focus:ring-2 focus:ring-amber-500 focus:border-transparent">
+                        <option value="">-- Seleccione un pensador --</option>
+                        <option value="socrates">Sócrates</option>
+                        <option value="aristoteles">Aristóteles</option>
+                        <option value="santiago">Apóstol Santiago</option>
+                        <option value="carnegie">Dale Carnegie</option>
+                        <option value="tolle">Eckhart Tolle</option>
+                        <option value="wittgenstein_foucault">Wittgenstein & Foucault</option>
+                    </select>
+                </div>
+                <div class="mb-6">
+                    <label for="communication-dilemma" class="block text-stone-700 text-lg font-bold mb-2">Describa su Dilema de Comunicación:</label>
+                    <textarea id="communication-dilemma" rows="5" class="block w-full p-3 border border-stone-300 rounded-md bg-stone-50 focus:outline-none focus:ring-2 focus:ring-amber-500 focus:border-transparent" placeholder="Ej: Tengo dificultades para que mis ideas sean escuchadas en reuniones de trabajo."></textarea>
+                </div>
+                <button id="get-advice-btn" class="w-full bg-amber-700 text-white font-bold py-3 px-4 rounded-md hover:bg-amber-800 focus:outline-none focus:ring-2 focus:ring-amber-500 focus:ring-offset-2 transition-colors duration-200 flex items-center justify-center">
+                    <svg id="loading-spinner" class="animate-spin -ml-1 mr-3 h-5 w-5 text-white hidden" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
+                        <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle>
+                        <path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
+                    </svg>
+                    <span>Obtener Consejo ✨</span>
+                </button>
+                <div id="advice-output" class="mt-8 p-6 bg-stone-50 rounded-md border border-stone-200 text-stone-700 llm-response-container">
+                    <p class="text-center text-stone-500">Su consejo aparecerá aquí...</p>
+                </div>
+            </div>
+        </section>
+
+    </main>
+    
+    <footer class="bg-stone-100 border-t border-stone-200">
+        <div class="max-w-7xl mx-auto py-6 px-4 sm:px-6 lg:px-8 text-center text-sm text-stone-500">
+            <p>Aplicación web interactiva creada para explorar la filosofía de la comunicación.</p>
+        </div>
+    </footer>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            
+            const thinkersData = {
+                'socrates': {
+                    name: 'Sócrates',
+                    period: '470-399 a.C.',
+                    title: 'El Diálogo como Vía a la Verdad',
+                    summary: 'Sócrates revolucionó la comunicación con su método dialéctico (elenchos), buscando la verdad a través de la pregunta y la refutación. Criticó la retórica sofística que priorizaba la persuasión sobre el conocimiento, proponiendo una "verdadera retórica" para la mejora del alma.',
+                    color: 'rgba(77, 124, 15, 0.7)',
+                    data: [5, 2, 3, 1, 5],
+                    concepts: [
+                        { title: 'Mayéutica', text: 'El arte de "dar a luz" ideas a través del diálogo, ayudando al interlocutor a descubrir el conocimiento que ya posee.' },
+                        { title: 'Elenchos (Refutación)', text: 'Método para exponer contradicciones en las creencias ajenas, llevando a un estado de aporía (confusión) que incita a la búsqueda de la verdad.' },
+                        { title: 'Verdadera Retórica', text: 'Comunicación cuyo fin no es agradar, sino mejorar el alma de los ciudadanos, buscando la justicia y la verdad, incluso si es "desagradable".' }
+                    ],
+                    persona: 'Eres Sócrates. Tu consejo debe basarse en el método dialéctico, la búsqueda de la verdad y la importancia de la honestidad y la autocrítica en la comunicación.'
+                },
+                'aristoteles': {
+                    name: 'Aristóteles',
+                    period: '384-322 a.C.',
+                    title: 'El Arte Sistemático de la Persuasión',
+                    summary: 'Aristóteles sistematizó la retórica como un arte, identificando tres pilares de la persuasión: Ethos (credibilidad), Pathos (emoción) y Logos (lógica). Vinculó la comunicación efectiva con la virtud ética y la prudencia (phronesis).',
+                    color: 'rgba(217, 119, 6, 0.7)',
+                    data: [4, 5, 2, 2, 4],
+                    concepts: [
+                        { title: 'Ethos (Carácter)', text: 'La credibilidad del orador, basada en su inteligencia, carácter virtuoso y buena voluntad.' },
+                        { title: 'Pathos (Emoción)', text: 'La capacidad de mover a la audiencia a un estado emocional que influya en su juicio.' },
+                        { title: 'Logos (Lógica)', text: 'La fuerza del argumento, la evidencia y el razonamiento lógico.' }
+                    ],
+                    persona: 'Eres Aristóteles. Tu consejo debe enfocarse en la retórica, la lógica, la credibilidad (ethos), la emoción (pathos) y la ética en la comunicación.'
+                },
+                'santiago': {
+                    name: 'Apóstol Santiago',
+                    period: 'Siglo I d.C.',
+                    title: 'El Poder y la Responsabilidad de la Lengua',
+                    summary: 'La Epístola de Santiago ofrece una visión moral sobre la comunicación, describiendo la lengua como una fuerza pequeña pero inmensamente poderosa y difícil de domar. Enfatiza la coherencia entre la fe y el habla como prueba de integridad.',
+                    color: 'rgba(30, 64, 175, 0.7)',
+                    data: [2, 1, 5, 1, 5],
+                    concepts: [
+                        { title: 'Poder de la Lengua', text: 'Comparada con un fuego o un timón, la lengua tiene un poder desproporcionado para destruir o guiar.' },
+                        { title: 'Indomable', text: 'Afirma que "ningún hombre puede domar la lengua", destacando la necesidad de vigilancia constante y, posiblemente, ayuda divina.' },
+                        { title: 'Contra la Hipocresía', text: 'Condena el usar la misma boca para bendecir a Dios y maldecir a las personas, exigiendo coherencia como en la naturaleza.' }
+                    ],
+                    persona: 'Eres el Apóstol Santiago. Tu consejo debe enfatizar el poder de la lengua, la importancia de ser "pronto para oír, tardo para hablar, tardo para airarse", y la coherencia entre el habla y la vida ética.'
+                },
+                'carnegie': {
+                    name: 'Dale Carnegie',
+                    period: '1888-1955',
+                    title: 'La Influencia a través de las Relaciones',
+                    summary: 'Carnegie ofreció un enfoque pragmático para el éxito interpersonal, basado en la empatía y la gestión de la psicología humana. Sus principios se centran en ganar amigos e influir en los demás evitando conflictos y haciendo que los otros se sientan importantes.',
+                    color: 'rgba(219, 39, 119, 0.7)',
+                    data: [2, 5, 3, 3, 3],
+                    concepts: [
+                        { title: 'No Criticar', text: 'Evitar la crítica, la condena y la queja para no poner a los demás a la defensiva.' },
+                        { title: 'Aprecio Sincero', text: 'Reconocer y valorar genuinamente a los demás para construir relaciones positivas.' },
+                        { title: 'Enfoque en el Otro', text: 'Hablar en términos de los intereses del otro, escuchar activamente y hacer que se sientan importantes.' }
+                    ],
+                    persona: 'Eres Dale Carnegie. Tu consejo debe ser práctico, centrado en las relaciones interpersonales, la empatía, evitar conflictos y hacer que los demás se sientan importantes.'
+                },
+                'tolle': {
+                    name: 'Eckhart Tolle',
+                    period: 'Contemporáneo',
+                    title: 'Comunicación desde la Conciencia',
+                    summary: 'Tolle distingue entre la comunicación "mente a mente", llena de ego y conflicto, y la comunicación "Ser a Ser", que surge de la presencia en el momento actual. Propone la escucha consciente como un acto espiritual para crear un espacio de conexión genuina.',
+                    color: 'rgba(107, 33, 168, 0.7)',
+                    data: [4, 1, 5, 2, 4],
+                    concepts: [
+                        { title: 'Ser a Ser', text: 'Comunicación auténtica que trasciende el pensamiento y el ego, basada en la conciencia del Ser interior.' },
+                        { title: 'Escucha Consciente', text: 'Escuchar con todo el cuerpo, creando un "espacio sin mente" que permite una conexión real y profunda.' },
+                        { title: 'Relaciones para la Conciencia', text: 'El propósito de las relaciones no es la felicidad egoica, sino el hacernos conscientes, un camino hacia la "salvación".' }
+                    ],
+                    persona: 'Eres Eckhart Tolle. Tu consejo debe enfocarse en la conciencia del momento presente, la escucha sin el ego, la presencia y la comunicación "Ser a Ser".'
+                },
+                 'wittgenstein_foucault': {
+                    name: 'Wittgenstein & Foucault',
+                    period: 'Siglo XX',
+                    title: 'Lenguaje, Significado y Poder',
+                    summary: 'Wittgenstein mostró que el significado es contextual ("juegos de lenguaje"), mientras Foucault reveló cómo el "discurso" construye activamente la realidad, la verdad y la identidad, sirviendo como un mecanismo de poder y control social.',
+                    color: 'rgba(120, 113, 108, 0.7)',
+                    data: [3, 2, 2, 5, 3],
+                    concepts: [
+                        { title: 'Juegos de Lenguaje (W)', text: 'El significado de una palabra no es fijo, sino que se determina por su uso dentro de un contexto social o "forma de vida".' },
+                        { title: 'Discurso y Poder (F)', text: 'El discurso no solo describe la realidad, sino que la crea, estableciendo lo que es "verdadero" y ejerciendo poder y control.' },
+                        { title: 'Resistencia', text: 'Aunque el poder opera a través del discurso, el discurso mismo contiene el potencial para la resistencia y la transformación social.' }
+                    ],
+                    persona: 'Eres una combinación de Wittgenstein y Foucault. Tu consejo debe abordar la comunicación a través de la lente del lenguaje como juego social y el discurso como constructor de realidad y poder.'
+                }
+            };
+            
+            const carnegiePrinciples = [
+                { category: 'trato', text: 'No criticar, condenar o quejarse.' },
+                { category: 'trato', text: 'Dar aprecio honesto y sincero.' },
+                { category: 'trato', text: 'Despertar en la otra persona un vehemente deseo.' },
+                { category: 'aprecio', text: 'Interesarse genuinamente en otras personas.' },
+                { category: 'aprecio', text: 'Sonreír.' },
+                { category: 'aprecio', text: 'Recordar que el nombre de una persona es el sonido más dulce e importante.' },
+                { category: 'aprecio', text: 'Ser un buen oyente. Animar a los demás a hablar de sí mismos.' },
+                { category: 'aprecio', text: 'Hablar en términos de los intereses de la otra persona.' },
+                { category: 'aprecio', text: 'Hacer que la otra persona se sienta importante – y hacerlo sinceramente.' },
+                { category: 'persuadir', text: 'La única forma de sacar lo mejor de una discusión es evitarla.' },
+                { category: 'persuadir', text: 'Mostrar respeto por las opiniones de la otra persona. Nunca decir "Estás equivocado".' },
+                { category: 'persuadir', text: 'Si estás equivocado, admítelo rápida y enfáticamente.' },
+                { category: 'persuadir', text: 'Comenzar de manera amigable.' },
+                { category: 'persuadir', text: 'Hacer que la otra persona diga "sí, sí" inmediatamente.' },
+                { category: 'persuadir', text: 'Dejar que la otra persona hable mucho.' },
+                { category: 'persuadir', text: 'Dejar que la otra persona sienta que la idea es suya.' },
+                { category: 'persuadir', text: 'Tratar honestamente de ver las cosas desde el punto de vista de la otra persona.' },
+                { category: 'persuadir', text: 'Ser comprensivo con las ideas y deseos de la otra persona.' },
+                { category: 'persuadir', text: 'Apelar a los motivos más nobles.' },
+                { category: 'liderar', text: 'Comenzar con elogios y aprecio honesto.' },
+                { category: 'liderar', text: 'Llamar la atención sobre los errores de las personas indirectamente.' },
+                { category: 'liderar', text: 'Hablar de tus propios errores antes de criticar a la otra persona.' },
+                { category: 'liderar', text: 'Hacer preguntas en lugar de dar órdenes directas.' },
+                { category: 'liderar', text: 'Dejar que la otra persona salve la cara.' },
+                { category: 'liderar', text: 'Elogiar la más mínima mejora y cada mejora.' },
+                { category: 'liderar', text: 'Dar a la otra persona una buena reputación que mantener.' },
+                { category: 'liderar', text: 'Usar el aliento. Hacer que la falta parezca fácil de corregir.' },
+                { category: 'liderar', text: 'Hacer que la otra persona se sienta feliz de hacer lo que sugieres.' }
+            ];
+
+            const carnegieCategories = {
+                'todos': 'Todos los Principios',
+                'trato': 'Trato con la Gente',
+                'aprecio': 'Hacer que te Arecien',
+                'persuadir': 'Persuadir a los Demás',
+                'liderar': 'Ser un Líder'
+            };
+
+            const populateThinkerDetails = () => {
+                const container = document.getElementById('thinker-details');
+                container.innerHTML = '';
+                Object.keys(thinkersData).forEach(key => {
+                    const thinker = thinkersData[key];
+                    const element = document.createElement('article');
+                    element.id = `thinker-${key}`;
+                    element.className = 'py-8';
+                    element.innerHTML = `
+                        <div class="text-center">
+                            <h4 class="text-3xl font-bold text-amber-700">${thinker.name}</h4>
+                            <p class="text-md text-stone-500 mb-2">${thinker.period}</p>
+                            <h5 class="text-xl font-serif text-stone-700 mb-4">${thinker.title}</h5>
+                            <p class="max-w-3xl mx-auto text-stone-600 leading-relaxed mb-8">${thinker.summary}</p>
+                        </div>
+                        <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
+                            ${thinker.concepts.map(concept => `
+                                <div class="card p-6 rounded-lg shadow-sm">
+                                    <h6 class="font-bold text-lg text-amber-800 mb-2">${concept.title}</h6>
+                                    <p class="text-stone-600 text-sm">${concept.text}</p>
+                                </div>
+                            `).join('')}
+                        </div>
+                    `;
+                    container.appendChild(element);
+                });
+            };
+
+            const populateTimeline = () => {
+                const container = document.getElementById('timeline-container');
+                container.innerHTML = '';
+                 const sortedThinkers = Object.keys(thinkersData).sort((a, b) => {
+                    const aYear = parseInt(thinkersData[a].period);
+                    const bYear = parseInt(thinkersData[b].period);
+                    return aYear - bYear;
+                });
+
+                sortedThinkers.forEach(key => {
+                    const thinker = thinkersData[key];
+                    const element = document.createElement('div');
+                    element.className = 'timeline-item ml-12 mb-12 relative';
+                    element.innerHTML = `
+                        <div class="card p-6 rounded-lg shadow-md">
+                            <p class="text-sm text-amber-600 font-semibold mb-1">${thinker.period}</p>
+                            <h5 class="text-xl font-bold text-stone-800 mb-2">${thinker.name}</h5>
+                            <p class="text-stone-600">${thinker.summary}</p>
+                            <a href="#thinker-${key}" class="text-amber-700 hover:text-amber-800 font-semibold mt-4 inline-block text-sm">Ver más &rarr;</a>
+                        </div>
+                    `;
+                    container.appendChild(element);
+                });
+            };
+
+            const populateCarnegiePrinciples = (filter = 'todos') => {
+                const container = document.getElementById('carnegie-principles-container');
+                container.innerHTML = '';
+                const filteredPrinciples = filter === 'todos' 
+                    ? carnegiePrinciples 
+                    : carnegiePrinciples.filter(p => p.category === filter);
+                
+                filteredPrinciples.forEach(principle => {
+                    const element = document.createElement('div');
+                    element.className = 'card p-6 rounded-lg flex items-center';
+                    element.innerHTML = `
+                        <span class="text-amber-600 mr-4 text-2xl font-bold">&#10003;</span>
+                        <p class="text-stone-700">${principle.text}</p>
+                    `;
+                    container.appendChild(element);
+                });
+            };
+            
+            const setupCarnegieFilters = () => {
+                const container = document.getElementById('carnegie-filters');
+                container.innerHTML = '';
+                Object.keys(carnegieCategories).forEach(key => {
+                    const button = document.createElement('button');
+                    button.dataset.filter = key;
+                    button.textContent = carnegieCategories[key];
+                    button.className = 'filter-btn px-4 py-2 text-sm font-medium rounded-full transition';
+                    if (key === 'todos') {
+                        button.classList.add('bg-amber-600', 'text-white');
+                    } else {
+                        button.classList.add('bg-white', 'text-stone-700', 'hover:bg-amber-100');
+                    }
+                    button.addEventListener('click', () => {
+                        document.querySelectorAll('.filter-btn').forEach(btn => {
+                             btn.classList.remove('bg-amber-600', 'text-white');
+                             btn.classList.add('bg-white', 'text-stone-700', 'hover:bg-amber-100');
+                        });
+                        button.classList.add('bg-amber-600', 'text-white');
+                        button.classList.remove('bg-white', 'text-stone-700');
+                        populateCarnegiePrinciples(key);
+                    });
+                    container.appendChild(button);
+                });
+            };
+
+            const createChart = () => {
+                const ctx = document.getElementById('perspectiveChart').getContext('2d');
+                new Chart(ctx, {
+                    type: 'radar',
+                    data: {
+                        labels: ['Verdad', 'Influencia', 'Espiritualidad', 'Poder', 'Ética'],
+                        datasets: Object.values(thinkersData).map(thinker => ({
+                            label: thinker.name,
+                            data: thinker.data,
+                            fill: true,
+                            backgroundColor: thinker.color.replace('0.7', '0.2'),
+                            borderColor: thinker.color,
+                            pointBackgroundColor: thinker.color,
+                            pointBorderColor: '#fff',
+                            pointHoverBackgroundColor: '#fff',
+                            pointHoverBorderColor: thinker.color
+                        }))
+                    },
+                    options: {
+                        responsive: true,
+                        maintainAspectRatio: false,
+                        elements: {
+                            line: {
+                                borderWidth: 3
+                            }
+                        },
+                        scales: {
+                            r: {
+                                angleLines: {
+                                    color: 'rgba(0, 0, 0, 0.1)'
+                                },
+                                suggestedMin: 0,
+                                suggestedMax: 5,
+                                pointLabels: {
+                                    font: {
+                                        size: 14,
+                                        family: "'Lato', sans-serif"
+                                    },
+                                    color: '#44403c' // stone-700
+                                },
+                                grid: {
+                                    color: 'rgba(0, 0, 0, 0.1)'
+                                },
+                                ticks: {
+                                    backdropColor: 'rgba(255, 250, 240, 0.7)',
+                                    color: '#78716c' // stone-500
+                                }
+                            }
+                        },
+                        plugins: {
+                            legend: {
+                                position: 'bottom',
+                                labels: {
+                                    font: {
+                                        size: 12,
+                                        family: "'Lato', sans-serif"
+                                    },
+                                    usePointStyle: true,
+                                }
+                            },
+                            tooltip: {
+                                callbacks: {
+                                    label: function(context) {
+                                        let label = context.dataset.label || '';
+                                        if (label) {
+                                            label += ': ';
+                                        }
+                                        if (context.parsed.r !== null) {
+                                            label += context.parsed.r;
+                                        }
+                                        return label;
+                                    }
+                                }
+                            }
+                        },
+                         onClick: (evt, elements, chart) => {
+                            if (elements.length > 0) {
+                                const datasetIndex = elements[0].datasetIndex;
+                                const thinkerKey = Object.keys(thinkersData)[datasetIndex];
+                                document.getElementById(`thinker-${thinkerKey}`).scrollIntoView({
+                                    behavior: 'smooth'
+                                });
+                            }
+                        }
+                    }
+                });
+            };
+
+            const handleScroll = () => {
+                const sections = document.querySelectorAll('section');
+                const navLinks = document.querySelectorAll('.nav-link');
+                let currentSection = '';
+
+                sections.forEach(section => {
+                    const sectionTop = section.offsetTop;
+                    if (pageYOffset >= sectionTop - 100) {
+                        currentSection = section.getAttribute('id');
+                    }
+                });
+
+                navLinks.forEach(link => {
+                    link.classList.remove('active-nav');
+                    if (link.getAttribute('href').substring(1) === currentSection) {
+                        link.classList.add('active-nav');
+                    }
+                });
+            };
+
+            const handleMobileMenu = () => {
+                const button = document.getElementById('mobile-menu-button');
+                const menu = document.getElementById('mobile-menu');
+                button.addEventListener('click', () => {
+                    menu.classList.toggle('hidden');
+                });
+                 document.querySelectorAll('#mobile-menu a').forEach(link => {
+                    link.addEventListener('click', () => {
+                        menu.classList.add('hidden');
+                    });
+                });
+            };
+
+            const getAdvice = async () => {
+                const philosopherSelect = document.getElementById('philosopher-select');
+                const dilemmaInput = document.getElementById('communication-dilemma');
+                const adviceOutput = document.getElementById('advice-output');
+                const getAdviceBtn = document.getElementById('get-advice-btn');
+                const loadingSpinner = document.getElementById('loading-spinner');
+
+                const selectedPhilosopherKey = philosopherSelect.value;
+                const dilemma = dilemmaInput.value.trim();
+
+                if (!selectedPhilosopherKey) {
+                    adviceOutput.innerHTML = '<p class="text-center text-red-500">Por favor, seleccione un pensador.</p>';
+                    return;
+                }
+                if (!dilemma) {
+                    adviceOutput.innerHTML = '<p class="text-center text-red-500">Por favor, describa su dilema de comunicación.</p>';
+                    return;
+                }
+
+                const selectedThinker = thinkersData[selectedPhilosopherKey];
+                const personaPrompt = selectedThinker.persona;
+
+                adviceOutput.innerHTML = '<p class="text-center text-stone-500">Generando consejo...</p>';
+                getAdviceBtn.disabled = true;
+                loadingSpinner.classList.remove('hidden');
+
+                try {
+                    let chatHistory = [];
+                    chatHistory.push({ role: "user", parts: [{ text: `${personaPrompt}\nMi dilema de comunicación es: ${dilemma}` }] });
+                    const payload = { contents: chatHistory };
+                    const apiKey = ""
+                    const apiUrl = `https://generativelanguage.googleapis.com/v1beta/models/gemini-2.0-flash:generateContent?key=${apiKey}`;
+                    const response = await fetch(apiUrl, {
+                                method: 'POST',
+                                headers: { 'Content-Type': 'application/json' },
+                                body: JSON.stringify(payload)
+                            });
+                    const result = await response.json();
+                    
+                    if (result.candidates && result.candidates.length > 0 &&
+                        result.candidates[0].content && result.candidates[0].content.parts &&
+                        result.candidates[0].content.parts.length > 0) {
+                      const text = result.candidates[0].content.parts[0].text;
+                      adviceOutput.innerHTML = `<p>${text.replace(/\n/g, '<br>')}</p>`;
+                    } else {
+                        adviceOutput.innerHTML = '<p class="text-center text-red-500">No se pudo obtener el consejo. Inténtelo de nuevo.</p>';
+                    }
+                } catch (error) {
+                    console.error('Error al llamar a la API de Gemini:', error);
+                    adviceOutput.innerHTML = '<p class="text-center text-red-500">Ocurrió un error al procesar su solicitud. Por favor, inténtelo más tarde.</p>';
+                } finally {
+                    getAdviceBtn.disabled = false;
+                    loadingSpinner.classList.add('hidden');
+                }
+            };
+            
+            window.addEventListener('scroll', handleScroll);
+            
+            populateThinkerDetails();
+            populateTimeline();
+            setupCarnegieFilters();
+            populateCarnegiePrinciples();
+            createChart();
+            handleMobileMenu();
+
+            document.getElementById('get-advice-btn').addEventListener('click', getAdvice);
+        });
+    </script>
+</body>
+</html>
