@@ -1,0 +1,358 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Infografía: Transformación Digital por Expande Digital Consultores</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;700;900&display=swap" rel="stylesheet">
+    <style>
+        body {
+            font-family: 'Inter', sans-serif;
+        }
+        .chart-container {
+            position: relative;
+            width: 100%;
+            max-width: 800px;
+            margin-left: auto;
+            margin-right: auto;
+            height: 350px;
+            max-height: 450px;
+        }
+        @media (min-width: 768px) {
+            .chart-container {
+                height: 400px;
+            }
+        }
+        .flowchart-step {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            text-align: center;
+            position: relative;
+        }
+        .flowchart-line::after {
+            content: '▼';
+            position: absolute;
+            left: 50%;
+            bottom: -20px;
+            transform: translateX(-50%);
+            font-size: 24px;
+            color: #00A1E4;
+        }
+    </style>
+</head>
+<body class="bg-[#F2F2F2] text-[#333333]">
+
+    <header class="bg-[#005082] text-white p-8 text-center shadow-lg">
+        <h1 class="text-4xl md:text-5xl font-black mb-2">Navegando la Transformación Digital</h1>
+        <p class="text-xl md:text-2xl font-light">Una Guía Visual por <span class="font-bold text-[#00A1E4]">Expande Digital Consultores</span></p>
+    </header>
+
+    <main class="container mx-auto p-4 md:p-8">
+
+        <section id="intro" class="text-center my-12">
+            <div class="bg-white rounded-lg shadow-xl p-8 max-w-4xl mx-auto">
+                <p class="text-2xl md:text-3xl font-bold text-[#0077C0] mb-4">"La digitalización empresarial implica adoptar nuevas herramientas para mejorar tu competitividad."</p>
+                <p class="text-lg">
+                    La transformación digital no es solo una opción, es el motor que impulsa el crecimiento y la relevancia en el mercado actual. Consiste en integrar tecnologías digitales en todas las áreas de una empresa, cambiando fundamentalmente la forma en que opera y entrega valor a sus clientes.
+                </p>
+            </div>
+        </section>
+
+        <section id="pillars" class="my-12">
+            <div class="bg-white rounded-lg shadow-xl p-6 md:p-8">
+                <h2 class="text-3xl font-bold text-center mb-2 text-[#005082]">Los 12 Pilares de la Estrategia Digital</h2>
+                <p class="text-center text-lg max-w-3xl mx-auto mb-8">
+                    Expande Digital Consultores define un marco de 12 áreas clave que son esenciales para una transformación digital exitosa. A continuación, se muestra la importancia relativa que las empresas otorgan a cada pilar para potenciar su negocio.
+                </p>
+                <div class="chart-container h-[500px] md:h-[450px]">
+                    <canvas id="pillarsChart"></canvas>
+                </div>
+                 <p class="text-center text-sm mt-4 text-gray-500">
+                    Este gráfico de barras compara la importancia percibida de cada servicio ofrecido, destacando áreas de alto impacto como el Marketing Digital y el E-commerce.
+                </p>
+            </div>
+        </section>
+       
+        <section id="core-services" class="my-12">
+             <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+               
+                <div class="bg-white p-6 rounded-lg shadow-lg">
+                    <h3 class="font-bold text-xl mb-2 text-[#0077C0]">📊 Análisis de Datos y BI</h3>
+                    <p>Transformamos datos en decisiones estratégicas. Implementar Business Intelligence es crucial para entender el comportamiento del cliente y optimizar operaciones.</p>
+                </div>
+
+                <div class="bg-white p-6 rounded-lg shadow-lg">
+                    <h3 class="font-bold text-xl mb-2 text-[#0077C0]">🛒 Creación de E-commerce</h3>
+                    <p>Desarrollamos tiendas online robustas y seguras que ofrecen una experiencia de compra excepcional y maximizan las conversiones.</p>
+                </div>
+
+                <div class="bg-white p-6 rounded-lg shadow-lg">
+                    <h3 class="font-bold text-xl mb-2 text-[#0077C0]">🤖 Automatización de Marketing</h3>
+                    <p>Implementamos herramientas para automatizar tareas, personalizar la comunicación y nutrir leads de manera eficiente, mejorando la rentabilidad.</p>
+                </div>
+               
+                 <div class="bg-white p-6 rounded-lg shadow-lg">
+                    <h3 class="font-bold text-xl mb-2 text-[#0077C0]">📱 Desarrollo de Apps Móviles</h3>
+                    <p>Creamos aplicaciones móviles nativas e híbridas que fortalecen la relación con los clientes y abren nuevos canales de negocio.</p>
+                </div>
+
+                <div class="bg-white p-6 rounded-lg shadow-lg">
+                    <h3 class="font-bold text-xl mb-2 text-[#0077C0]">🎨 Diseño de Experiencia (UX)</h3>
+                    <p>Nos centramos en la usabilidad y accesibilidad para garantizar que los usuarios interactúen con productos digitales de forma intuitiva y satisfactoria.</p>
+                </div>
+               
+                <div class="bg-white p-6 rounded-lg shadow-lg">
+                    <h3 class="font-bold text-xl mb-2 text-[#0077C0]">📈 Consultoría SEO</h3>
+                    <p>Mejoramos la visibilidad en buscadores a través de estrategias de SEO técnico, de contenido y local para atraer tráfico cualificado.</p>
+                </div>
+            </div>
+        </section>
+
+        <section id="process" class="my-16">
+            <h2 class="text-3xl font-bold text-center mb-8 text-[#005082]">Nuestro Proceso de Transformación</h2>
+            <div class="flex flex-col md:flex-row justify-center items-center gap-y-12 md:gap-x-4">
+                <div class="flowchart-step w-48 h-32 bg-white rounded-lg shadow-lg p-4 font-bold text-[#0077C0] flowchart-line">1. Diagnóstico y Estrategia</div>
+                <div class="hidden md:block text-4xl text-[#00A1E4] font-light mx-4">→</div>
+                <div class="flowchart-step w-48 h-32 bg-white rounded-lg shadow-lg p-4 font-bold text-[#0077C0] flowchart-line">2. Implementación de Herramientas</div>
+                 <div class="hidden md:block text-4xl text-[#00A1E4] font-light mx-4">→</div>
+                <div class="flowchart-step w-48 h-32 bg-white rounded-lg shadow-lg p-4 font-bold text-[#0077C0] flowchart-line">3. Capacitación y Adopción</div>
+                 <div class="hidden md:block text-4xl text-[#00A1E4] font-light mx-4">→</div>
+                <div class="flowchart-step w-48 h-32 bg-white rounded-lg shadow-lg p-4 font-bold text-[#0077C0]">4. Análisis y Optimización Continua</div>
+            </div>
+            <p class="text-center text-lg max-w-3xl mx-auto mt-12">
+                Este diagrama de flujo, creado con HTML y CSS, ilustra nuestro enfoque estructurado. Comenzamos con un análisis profundo, implementamos las tecnologías adecuadas, capacitamos a los equipos y medimos constantemente los resultados para una mejora iterativa.
+            </p>
+        </section>
+
+        <section id="success" class="my-12">
+            <div class="bg-white rounded-lg shadow-xl p-6 md:p-8">
+                <h2 class="text-3xl font-bold text-center mb-2 text-[#005082]">Midiendo el Éxito de la Transformación</h2>
+                <p class="text-center text-lg max-w-3xl mx-auto mb-8">
+                    La transformación digital debe traducirse en resultados medibles. El seguimiento de KPIs como el tráfico web, la tasa de conversión y la lealtad del cliente es fundamental para evaluar el ROI y ajustar la estrategia en tiempo real.
+                </p>
+                <div class="chart-container">
+                    <canvas id="kpiChart"></canvas>
+                </div>
+                <p class="text-center text-sm mt-4 text-gray-500">
+                    Este gráfico de líneas muestra una proyección de crecimiento en métricas clave tras la implementación de una estrategia digital integral.
+                </p>
+            </div>
+        </section>
+
+        <section id="future" class="my-12">
+            <div class="bg-white rounded-lg shadow-xl p-6 md:p-8">
+                <h2 class="text-3xl font-bold text-center mb-2 text-[#005082]">El Futuro es Digital y Exponencial</h2>
+                <p class="text-center text-lg max-w-3xl mx-auto mb-8">
+                    La tecnología no se detiene. Tendencias como la Inteligencia Artificial, la Automatización Avanzada y la Realidad Aumentada están redefiniendo el panorama. Estar preparado para estas innovaciones es clave para la supervivencia y el liderazgo en el futuro.
+                </p>
+                <div class="chart-container">
+                    <canvas id="futureTrendsChart"></canvas>
+                </div>
+                <p class="text-center text-sm mt-4 text-gray-500">
+                   Este gráfico de radar compara la importancia proyectada de las tecnologías emergentes que darán forma a los negocios del mañana.
+                </p>
+            </div>
+        </section>
+
+    </main>
+
+    <footer class="bg-[#005082] text-white text-center p-8 mt-12">
+        <h2 class="text-2xl font-bold">¿Listo para transformar tu negocio?</h2>
+        <p class="mt-2 mb-4">Contacta a Expande Digital Consultores y descubre cómo podemos potenciar tu crecimiento.</p>
+        <a href="#" class="bg-[#00A1E4] hover:bg-[#0077C0] text-white font-bold py-3 px-6 rounded-lg shadow-lg transition-transform transform hover:scale-105">Hablemos</a>
+    </footer>
+
+    <script>
+        const FONT_COLOR = '#333333';
+       
+        function wrapLabels(label, maxWidth) {
+            const words = label.split(' ');
+            let line = '';
+            const lines = [];
+            for (let i = 0; i < words.length; i++) {
+                const testLine = line + words[i] + ' ';
+                if (testLine.length > maxWidth && i > 0) {
+                    lines.push(line.trim());
+                    line = words[i] + ' ';
+                } else {
+                    line = testLine;
+                }
+            }
+            lines.push(line.trim());
+            return lines;
+        }
+
+        const tooltipTitleCallback = {
+            plugins: {
+                tooltip: {
+                    callbacks: {
+                        title: function(tooltipItems) {
+                            const item = tooltipItems[0];
+                            let label = item.chart.data.labels[item.dataIndex];
+                            if (Array.isArray(label)) {
+                                return label.join(' ');
+                            }
+                            return label;
+                        }
+                    }
+                }
+            }
+        };
+
+        const pillarLabels = [
+            'Marketing Digital (PYMES)',
+            'Desarrollo de Apps',
+            'Consultoría SEO',
+            'Diseño UX',
+            'Gestión de Redes Sociales',
+            'Automatización de Marketing',
+            'Creación de E-commerce',
+            'Análisis de Datos y BI',
+            'Branding',
+            'Capacitación Digital',
+            'Intro a la Transf. Digital',
+            'Conclusiones y Futuro'
+        ];
+
+        new Chart(document.getElementById('pillarsChart'), {
+            type: 'bar',
+            data: {
+                labels: pillarLabels.map(label => wrapLabels(label, 16)),
+                datasets: [{
+                    label: 'Importancia Estratégica',
+                    data: [95, 85, 90, 88, 82, 89, 98, 92, 78, 75, 70, 65],
+                    backgroundColor: '#00A1E4',
+                    borderColor: '#0077C0',
+                    borderWidth: 2,
+                    borderRadius: 5,
+                }]
+            },
+            options: {
+                ...tooltipTitleCallback,
+                maintainAspectRatio: false,
+                indexAxis: 'y',
+                scales: {
+                    x: {
+                        beginAtZero: true,
+                        grid: {
+                            color: '#e0e0e0'
+                        },
+                        ticks: {
+                           color: FONT_COLOR
+                        }
+                    },
+                    y: {
+                         grid: {
+                            display: false
+                        },
+                        ticks: {
+                           color: FONT_COLOR
+                        }
+                    }
+                },
+                plugins: {
+                    ...tooltipTitleCallback.plugins,
+                    legend: {
+                        display: false
+                    }
+                }
+            }
+        });
+       
+        new Chart(document.getElementById('kpiChart'), {
+            type: 'line',
+            data: {
+                labels: ['Inicio', 'Mes 3', 'Mes 6', 'Mes 9', 'Mes 12'],
+                datasets: [
+                    {
+                        label: 'Tráfico Web',
+                        data: [1000, 2500, 4500, 7000, 10000],
+                        borderColor: '#00A1E4',
+                        backgroundColor: 'rgba(0, 161, 228, 0.1)',
+                        fill: true,
+                        tension: 0.4
+                    },
+                    {
+                        label: 'Tasa de Conversión (%)',
+                        data: [1.5, 2.2, 3.1, 4.0, 5.5],
+                        borderColor: '#0077C0',
+                        backgroundColor: 'rgba(0, 119, 192, 0.1)',
+                        fill: true,
+                        tension: 0.4
+                    }
+                ]
+            },
+            options: {
+                ...tooltipTitleCallback,
+                maintainAspectRatio: false,
+                scales: {
+                    y: {
+                        beginAtZero: true,
+                        ticks: { color: FONT_COLOR }
+                    },
+                    x: {
+                        ticks: { color: FONT_COLOR }
+                    }
+                },
+                 plugins: {
+                    ...tooltipTitleCallback.plugins,
+                    legend: {
+                        labels: {
+                            color: FONT_COLOR
+                        }
+                    }
+                }
+            }
+        });
+
+        new Chart(document.getElementById('futureTrendsChart'), {
+            type: 'radar',
+            data: {
+                labels: ['Inteligencia Artificial', 'Automatización Avanzada', 'Realidad Aumentada (AR/VR)', 'Análisis Predictivo', 'Internet de las Cosas (IoT)'],
+                datasets: [{
+                    label: 'Impacto Futuro',
+                    data: [90, 85, 75, 88, 80],
+                    backgroundColor: 'rgba(0, 161, 228, 0.2)',
+                    borderColor: '#00A1E4',
+                    pointBackgroundColor: '#00A1E4',
+                    pointBorderColor: '#fff',
+                    pointHoverBackgroundColor: '#fff',
+                    pointHoverBorderColor: '#00A1E4'
+                }]
+            },
+            options: {
+                ...tooltipTitleCallback,
+                maintainAspectRatio: false,
+                scales: {
+                    r: {
+                        angleLines: { color: '#cccccc' },
+                        grid: { color: '#dddddd' },
+                        pointLabels: {
+                            color: FONT_COLOR,
+                            font: {
+                                size: 12
+                            }
+                        },
+                        ticks: {
+                            color: FONT_COLOR,
+                            backdropColor: 'transparent'
+                        }
+                    }
+                },
+                 plugins: {
+                    ...tooltipTitleCallback.plugins,
+                    legend: {
+                         display: false
+                    }
+                }
+            }
+        });
+    </script>
+
+</body>
+  </html>
